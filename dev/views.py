@@ -9,14 +9,14 @@ def test(request):
 
 def scan_cards():
     import os
-    path = '/home/huangkun/celtics/magics/dev/cards'
+    path = '/home/huangkun/celtics/magics/media/cards'
     jpgs = os.listdir(path)
     _ret = []
     for jpg in jpgs:
         _ret.append({'title': jpg.decode('utf8')[:-4],
                      'alt': 'Img loading...',
-                     'link': path + '/' + jpg,
-                     'min_link': path + '/' + jpg,
+                     'link': 'cards' + '/' + jpg,
+                     'min_link': 'cards' + '/' + jpg,
                      })
     return _ret
 

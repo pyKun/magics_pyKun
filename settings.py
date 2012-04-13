@@ -1,4 +1,6 @@
 # Django settings for magics project.
+import os
+PROJECT_ROOT = os.path.dirname(__file__)
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -55,7 +57,7 @@ MEDIA_URL = ''
 # URL prefix for admin media -- CSS, JavaScript and images. Make sure to use a
 # trailing slash.
 # Examples: "http://foo.com/media/", "/media/".
-ADMIN_MEDIA_PREFIX = '/media/'
+ADMIN_MEDIA_PREFIX = '%s/media/' % PROJECT_ROOT
 
 # Make this unique, and don't share it with anybody.
 SECRET_KEY = 'e*qm@2)#vz%qnjtc&yaka@+fnw2)#7q%8-u1pb3350k1^jkmdv'
@@ -89,9 +91,24 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.sites',
     'django.contrib.messages',
+    'django.contrib.staticfiles',
     'dev',
     # Uncomment the next line to enable the admin:
     # 'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
+)
+
+STATIC_URL = 'media/'
+STATICFILES_DIRS = (
+        '/home/huangkun/celtics/magics/media',
+        )
+
+TEMPLATE_CONTEXT_PROCESSORS = (
+    'django.core.context_processors.debug',
+    'django.core.context_processors.i18n',
+    'django.core.context_processors.media',
+    'django.core.context_processors.static',
+    'django.contrib.auth.context_processors.auth',
+    'django.contrib.messages.context_processors.messages',
 )
