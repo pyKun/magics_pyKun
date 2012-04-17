@@ -99,7 +99,7 @@ INSTALLED_APPS = (
     # 'django.contrib.admindocs',
 )
 
-STATIC_URL = 'media/'
+STATIC_URL = '/media/'
 STATICFILES_DIRS = (
         '/home/huangkun/celtics/magics/media',
         )

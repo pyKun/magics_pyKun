@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>Welcome to Magics</title>
+    <script>
+        function hk(){
+            xmlhttp = new XMLHttpRequest();
+            xmlhttp.onreadystatechange = function(){
+                if (xmlhttp.readyState == 4 && xmlhttp.status == 200)
+                {
+                    document.getElementById("myDiv").innerHTML="value:{{game.value}};status:{{game.status}}";
+                }
+            }
+            xmlhttp.open("GET","/dev/init/",true);
+            xmlhttp.send();
+        }
+    </script>
+</head>
+<body>
+    <p>{{info}}</p>
+    {% for t in desk %}
+    <a href="{%url dev:role role=t.0%}">{{t.0}}</a>
+    <a href="{%url dev:role role=t.1%}">{{t.1}}</a>
+    {% endfor %}
+    <p><input type="button" value="init" onclick="hk()"></input><div id="myDiv">value:{{game.value}};status:{{game.status}}</div></p>
+    {% for i in game.value %}
+    <p>{{i.player}} {{i.action}} {{i.card}}</p>
+    {% endfor %}
+</body>
+</html>
