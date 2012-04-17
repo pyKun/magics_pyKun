@@ -44,6 +44,8 @@
 			accept: "#gallery > li",
 			activeClass: "ui-state-highlight",
 			drop: function( event, ui ) {
+                var card = $( ui.draggable[0] )[0].id
+                send_action('delete', card);
 				deleteImage( ui.draggable );
 			}
 		});
@@ -53,6 +55,8 @@
 			accept: "#trash li",
 			activeClass: "custom-state-active",
 			drop: function( event, ui ) {
+                var card = $( ui.draggable[0] )[0].id
+                send_action('recycle', card);
 				recycleImage( ui.draggable );
 			}
 		});
