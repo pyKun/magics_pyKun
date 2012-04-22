@@ -4,6 +4,7 @@ from django.http import HttpResponse
 from django.template import RequestContext
 from django.shortcuts import render
 from django.utils import simplejson
+from django.utils.translation import ugettext as _
 
 from dev.models import ACTION, ACTIONS
 
@@ -16,7 +17,9 @@ GAME = None
 def game_init(request):
     global GAME
     GAME = ACTIONS()
-    return HttpResponse('success')
+    print request.LANGUAGE_CODE
+    print _('success')
+    return HttpResponse(_('success'))
 
 def play_page(request, role):
     ret = {'role':role, 'game':GAME}
@@ -24,6 +27,7 @@ def play_page(request, role):
     return render(request, 'player.html', ret)
 
 def action(request): # ajax
+
     global GAME
     data = request.GET
     act = ACTION(data['player'], data['action'], data['card'])

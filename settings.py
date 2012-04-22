@@ -33,8 +33,19 @@ TIME_ZONE = 'America/Chicago'
 
 # Language code for this installation. All choices can be found here:
 # http://www.i18nguy.com/unicode/language-identifiers.html
-LANGUAGE_CODE = 'en-us'
 
+LANGUAGE_CODE = 'en-US'
+gettext = lambda s: s
+
+LANGUAGES = (
+    ('en-US', gettext('English')),
+    #('en-us', gettext('English')),
+    #('en', gettext('English')),
+)
+
+LOCALE_PATHS = (
+        '/home/huangkun/celtics/magics/locale',
+        )
 SITE_ID = 1
 
 # If you set this to False, Django will make some optimizations so as not
@@ -70,8 +81,9 @@ TEMPLATE_LOADERS = (
 )
 
 MIDDLEWARE_CLASSES = (
-    'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
+    'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
