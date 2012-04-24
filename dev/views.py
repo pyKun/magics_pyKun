@@ -17,8 +17,6 @@ GAME = None
 def game_init(request):
     global GAME
     GAME = ACTIONS()
-    print request.LANGUAGE_CODE
-    print _('success')
     return HttpResponse(_('success'))
 
 def play_page(request, role):
