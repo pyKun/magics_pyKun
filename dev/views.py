@@ -1,5 +1,6 @@
 import time
 
+from settings import PROJECT_ROOT
 from django.http import HttpResponse
 from django.template import RequestContext
 from django.shortcuts import render
@@ -57,7 +58,7 @@ def test(request):
 
 def scan_cards():
     import os
-    path = '/home/huangkun/celtics/magics/media/cards'
+    path = '%s/media/cards' % PROJECT_ROOT
     jpgs = os.listdir(path)
     _ret = []
     for jpg in jpgs:

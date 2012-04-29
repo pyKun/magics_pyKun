@@ -13,12 +13,12 @@ MANAGERS = ADMINS
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': 'information_schema',                      # Or path to database file if using sqlite3.
-        'USER': 'root',                      # Not used with sqlite3.
-        'PASSWORD': 'admin',                  # Not used with sqlite3.
-        'HOST': 'localhost',                      # Set to empty string for localhost. Not used with sqlite3.
-        'PORT': '3306',                      # Set to empty string for default. Not used with sqlite3.
+        'ENGINE': '', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
+        'NAME': '',                      # Or path to database file if using sqlite3.
+        'USER': '',                      # Not used with sqlite3.
+        'PASSWORD': '',                  # Not used with sqlite3.
+        'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
+        'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
     }
 }
 
@@ -44,7 +44,7 @@ LANGUAGES = (
 )
 
 LOCALE_PATHS = (
-        '/home/huangkun/celtics/magics/locale',
+        '%(PROJECT_ROOT)s/locale' % locals(),
         )
 SITE_ID = 1
 
@@ -89,7 +89,7 @@ MIDDLEWARE_CLASSES = (
     #'django.contrib.messages.middleware.MessageMiddleware',
 )
 
-ROOT_URLCONF = 'magics.urls'
+ROOT_URLCONF = '%s.urls' % PROJECT_ROOT.split('/')[-1]
 
 TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
@@ -113,7 +113,7 @@ INSTALLED_APPS = (
 
 STATIC_URL = '/media/'
 STATICFILES_DIRS = (
-        '/home/huangkun/celtics/magics/media',
+        '%(PROJECT_ROOT)s/media' % locals(),
         )
 
 TEMPLATE_CONTEXT_PROCESSORS = (
