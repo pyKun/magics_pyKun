@@ -1,0 +1,23 @@
+li.card {
+    width:100px;
+    height:50;
+    padding:0.5em;
+    background-color:red;
+    border-color:black;
+}
+
+div.desk {
+    border-style:solid;
+}
+
+div#desk_1 {
+    width:600px;
+    height:600px;
+    border-color:black;
+}
+
+div#desk_2 {
+    width:600px;
+    height:200px;
+    border-color:blue;
+}

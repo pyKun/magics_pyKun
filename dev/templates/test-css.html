@@ -10,17 +10,34 @@
         <script src="{{STATIC_URL}}js/jquery-1.7.1.min.js"></script>
         <script src="{{STATIC_URL}}js/jquery-ui-1.8.18.custom.min.js"></script>
 	<style>
-        #draggable1 {width:150px;height:150px;padding:0.5em;}
 	</style>
 	<script>
         $(function(){
-            $( #draggable1 ).draggable();
+            $( '#hands' ).sortable({
+            revert:1000,
+            });
+
+            $( '.card' ).draggable({
+            connectToSortable:"#hands",
+            revert:"invalid",
+            cursorAt:{left:5,top:5},
+            });
+
+            $( '.desk' ).droppable();
+
+            $( '#hangds' ).disableSelection();
         });
 	</script>
 </head>
 <body>
-<div id="desk">
-<div id="draggable1"><p>hi!</p></div>
+<div id="desk_1" class="desk">
+<div id="desk_2" class="desk">
+<ul id="hands">
+<li id="card_1" class="card"><p>some_card1</p></li>
+<li id="card_2" class="card"><p>some_card2</p></li>
+<li id="card_3" class="card"><p>some_card3</p></li>
+</ul>
+</div>
 </div>
 </body>
 </html>

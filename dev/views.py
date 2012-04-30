@@ -68,3 +68,7 @@ def scan_cards():
                      'min_link': 'cards' + '/' + jpg,
                      })
     return _ret
+
+def css_test(request):
+    ret = {} 
+    return render(request, 'test-css.html', ret)

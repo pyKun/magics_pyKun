@@ -22,6 +22,7 @@
     {% for t in desk %}
     <a href="{%url dev:role role=t.0%}">{{t.0}}</a>
     <a href="{%url dev:role role=t.1%}">{{t.1}}</a>
+    <a href="{%url dev:css-test %}">css-test</a>
     {% endfor %}
     <p><input type="button" value="init" onclick="hk()"></input><div id="myDiv">value:{{game.value}};status:{{game.status}}</div></p>
     {% for i in game.value %}
