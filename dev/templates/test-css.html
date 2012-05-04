@@ -12,20 +12,59 @@
 	<style>
 	</style>
 	<script>
+        var hk = '';
         $(function(){
             $( '#hands' ).sortable({
-            revert:1000,
+            tolerance:"pointer",
+            out:function(event, ui) { 
+                if (event.cancelable == false){
+                    //console.log('real out!');
+                    //from_hands_to_desk($( this ), $( ui.item[0] ));
+                };
+                //console.log(event.handleObj.origType + ' ' + event.cancelable);
+                //console.log(event)
+            },
             });
+
+            //$( '#hands_2' ).sortable({
+            //
+            //});
+            $( '#hands' ).droppable({
+                tolerance:"pointer",
+                out:function(event, ui){hk='out';/*console.log('out');*/},
+                over:function(event, ui){hk='over';/*console.log('over');*/},
+            })
+
+            $( '.card_p' ).droppable();
 
             $( '.card' ).draggable({
-            connectToSortable:"#hands",
-            revert:"invalid",
-            cursorAt:{left:5,top:5},
+            stop:function(event, ui){
+                //console.log(event);
+                //console.log(ui);
+                //console.log(hk);
+                /*
+                if hk = out & card in hands:
+                    do hands to desk
+                elif hk=over & card in desk:
+                    do desk to hands
+                */
+            },
             });
 
-            $( '.desk' ).droppable();
+            //$( '.desk' ).droppable();
 
-            $( '#hangds' ).disableSelection();
+            $( '#hands' ).disableSelection();
+
+            var card_in_desk = '<div id="card_num" class="card"><p>New one!</p></div>';
+            function from_hands_to_desk(hands, card) {
+                //card_in_desk = ''
+                card.fadeOut(function () {
+                    hands.find(card).fadeIn();
+                    console.log(card_in_desk);
+                    new_card = $(card_in_desk).attr('id', card.attr('id')).html(card.html());
+                    $( '#desk_2' ).append(new_card);
+                });
+            };
         });
 	</script>
 </head>
@@ -33,9 +72,9 @@
 <div id="desk_1" class="desk">
 <div id="desk_2" class="desk">
 <ul id="hands">
-<li id="card_1" class="card"><p>some_card1</p></li>
-<li id="card_2" class="card"><p>some_card2</p></li>
-<li id="card_3" class="card"><p>some_card3</p></li>
+<li id="card_1" class="card_p ui-state-default"><span class="card">some_card1</span></li>
+<li id="card_2" class="card_p ui-state-default"><span class="card">some_card2</span></li>
+<li id="card_3" class="card_p ui-state-default"><span class="card">some_card3</span></li>
 </ul>
 </div>
 </div>

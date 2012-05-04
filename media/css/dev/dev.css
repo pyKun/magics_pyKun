@@ -1,10 +1,11 @@
+/*
 li.card {
     width:100px;
     height:50;
     padding:0.5em;
     background-color:red;
     border-color:black;
-}
+}*/
 
 div.desk {
     border-style:solid;
@@ -20,4 +21,18 @@ div#desk_2 {
     width:600px;
     height:200px;
     border-color:blue;
+}
+ul#hands {
+    float:right;
+    top:250px;
+    background-color:green;
+    width:250px;
+    height:250px;
+}
+ul#hands_2 {
+    /*float:right;*/
+    top:250px;
+    background-color:green;
+    width:250px;
+    height:250px;
 }

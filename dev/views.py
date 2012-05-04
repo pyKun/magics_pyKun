@@ -70,5 +70,5 @@ def scan_cards():
     return _ret
 
 def css_test(request):
-    ret = {} 
+    ret = {}
     return render(request, 'test-css.html', ret)
