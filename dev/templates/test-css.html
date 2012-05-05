@@ -1,82 +1,102 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="utf-8">
-	<title>Css Test</title>
-	<link rel="stylesheet" href="{{STATIC_URL}}css/ui-lightness/jquery-ui-1.8.18.custom.css">
-	<link rel="stylesheet" href="{{STATIC_URL}}css/dev/dev-test.css">
-	<link rel="stylesheet" href="{{STATIC_URL}}css/dev/dev.css">
-        <link type="image/x-icon" href="{{STATIC_URL}}favicon.ico" rel="shortcut icon">
-        <script src="{{STATIC_URL}}js/jquery-1.7.1.min.js"></script>
-        <script src="{{STATIC_URL}}js/jquery-ui-1.8.18.custom.min.js"></script>
-	<style>
-	</style>
-	<script>
-        var hk = '';
+    <meta charset="utf-8">
+    <title>Css Test</title>
+    <link rel="stylesheet" href="{{STATIC_URL}}css/ui-lightness/jquery-ui-1.8.18.custom.css">
+    <link rel="stylesheet" href="{{STATIC_URL}}css/dev/dev-test.css">
+    <link rel="stylesheet" href="{{STATIC_URL}}css/dev/dev.css">
+    <link type="image/x-icon" href="{{STATIC_URL}}favicon.ico" rel="shortcut icon">
+    <script src="{{STATIC_URL}}js/jquery-1.7.1.min.js"></script>
+    <script src="{{STATIC_URL}}js/jquery-ui-1.8.18.custom.min.js"></script>
+    <script>
+        var hk = ''; // for debug
         $(function(){
-            $( '#hands' ).sortable({
-            tolerance:"pointer",
-            out:function(event, ui) { 
-                if (event.cancelable == false){
-                    //console.log('real out!');
-                    //from_hands_to_desk($( this ), $( ui.item[0] ));
-                };
-                //console.log(event.handleObj.origType + ' ' + event.cancelable);
-                //console.log(event)
-            },
+            $( '.drop_card' ).droppable({
+                greedy:true,
+                tolerance:"intersect",
+			    activeClass: "custom-state-active",
+                drop:function(event, ui){
+                    console.log('hands:' + $(this).attr('id').toUpperCase() + ' drop a card');
+                    var $draged_card = ui.draggable;
+                    var $this_card_drop = $(this);
+                    hk = $this_card_drop;
+
+                    // TODO understand return meanings.
+                    //empty card drop
+                    if ( ! $this_card_drop.children().is('.card') ){
+                        $draged_card.appendTo($this_card_drop);
+                    }
+                    //not empty card drop and self one!
+                    else if ( $this_card_drop.attr('id') == $draged_card.parent().attr('id') ) {
+                        console.log('this is the self card drop');
+                    }
+                    //not empty card drop and not self one!
+                    else if (true) {
+                        console.log('exchange two cards');
+                        var $origin_card = $this_card_drop.children();
+                        var $before_card_drop = $draged_card.parent();
+
+                        $origin_card.appendTo($before_card_drop);
+                        $draged_card.appendTo($this_card_drop);
+                    }
+                },
+                over:function(event, ui){
+                    console.log('a card is over on hands: ' + $(this).attr('id').toUpperCase());
+                },
+                out:function(event, ui){
+                    console.log('a card is out of hands: ' + $(this).attr('id').toUpperCase());
+                },
             });
 
-            //$( '#hands_2' ).sortable({
-            //
-            //});
-            $( '#hands' ).droppable({
-                tolerance:"pointer",
-                out:function(event, ui){hk='out';/*console.log('out');*/},
-                over:function(event, ui){hk='over';/*console.log('over');*/},
-            })
+            $( '.desk' ).droppable({
+                greedy:true,
+                tolerance:"fit",
+                drop:function(event, ui){
+                    //use greedy, so as getting, it's in out of sub-droppable.
+                    var $this_desk = $(this);
+                    var $desk_space = $($this_desk.children('.desk_space'));
 
-            $( '.card_p' ).droppable();
+                    var $new_li = $( '<li class="desk_card"></li>' );
+                    $new_li.appendTo($desk_space);
+
+                    var $draged_card = ui.draggable;
+                    $draged_card.appendTo($new_li);
+
+                    //TODO from hands to desk is span-->li; from desk to hands??
+                    console.log('desk drop a card');
+                },
+                over:function(event, ui){
+                    //console.log('a card is over on desk');
+                },
+                out:function(event, ui){
+                    //console.log('a card is out of desk');
+                },
+            });
 
             $( '.card' ).draggable({
-            stop:function(event, ui){
-                //console.log(event);
-                //console.log(ui);
-                //console.log(hk);
-                /*
-                if hk = out & card in hands:
-                    do hands to desk
-                elif hk=over & card in desk:
-                    do desk to hands
-                */
-            },
+                start:function(event, ui){
+                    console.log('a card: ' + $(this).html().toUpperCase() + ' starts to drag');
+                },
+                stop:function(event, ui){
+                    console.log('a card: ' + $(this).html().toUpperCase() + ' stop drag');
+                },
+                drag:function(event, ui){
+                    //console.log('a card is dragging');
+                },
             });
-
-            //$( '.desk' ).droppable();
-
-            $( '#hands' ).disableSelection();
-
-            var card_in_desk = '<div id="card_num" class="card"><p>New one!</p></div>';
-            function from_hands_to_desk(hands, card) {
-                //card_in_desk = ''
-                card.fadeOut(function () {
-                    hands.find(card).fadeIn();
-                    console.log(card_in_desk);
-                    new_card = $(card_in_desk).attr('id', card.attr('id')).html(card.html());
-                    $( '#desk_2' ).append(new_card);
-                });
-            };
         });
 	</script>
 </head>
 <body>
-<div id="desk_1" class="desk">
-<div id="desk_2" class="desk">
-<ul id="hands">
-<li id="card_1" class="card_p ui-state-default"><span class="card">some_card1</span></li>
-<li id="card_2" class="card_p ui-state-default"><span class="card">some_card2</span></li>
-<li id="card_3" class="card_p ui-state-default"><span class="card">some_card3</span></li>
-</ul>
-</div>
-</div>
+    <div id="desk" class="desk">
+        <ul id="hands" class="hands">
+            <li id="card_1" class="drop_card ui-state-default"><span class="card">some_card1</span></li>
+            <li id="card_2" class="drop_card ui-state-default"><span class="card">some_card2</span></li>
+            <li id="card_3" class="drop_card ui-state-default"></li>
+        </ul>
+        <ul id="desk_space" class="desk_space">
+        </ul>
+    </div>
 </body>
 </html>
