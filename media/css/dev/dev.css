@@ -7,32 +7,27 @@ li.card {
     border-color:black;
 }*/
 
-div.desk {
-    border-style:solid;
-}
-
-div#desk {
+ul.card_desk {
     width:600px;
     height:600px;
     border-color:black;
+    border-style:solid;
 }
 
-div#desk_2 {
-    width:600px;
-    height:200px;
+ul {
+    width:230px;
+    height:230px;
+    border-style:solid;
+}
+ul.desk_space {
+    float:right;
+    border-color:green;
+}
+
+ul.hands {
+    float:left;
     border-color:blue;
 }
-ul#hands {
-    float:right;
-    top:250px;
-    background-color:green;
-    width:250px;
-    height:250px;
-}
-ul#hands_2 {
-    /*float:right;*/
-    top:250px;
-    background-color:green;
-    width:250px;
-    height:250px;
+
+span.card {
 }

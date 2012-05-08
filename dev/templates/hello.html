@@ -3,6 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<title>Welcome to Magics</title>
+    <script src="{{STATIC_URL}}js/jquery-1.7.1.min.js"></script>
     <script>
         function hk(){
             xmlhttp = new XMLHttpRequest();
@@ -15,6 +16,12 @@
             xmlhttp.open("GET","/dev/init/",true);
             xmlhttp.send();
         }
+
+$(function(){
+        var timestamp = $( '#time' ).attr('stamp');
+        //var zl = new Date(parseInt(timestamp));
+        $( '#time' ).html(Date(parseInt(timestamp)));
+});
     </script>
 </head>
 <body>
@@ -28,5 +35,6 @@
     {% for i in game.value %}
     <p>{{i.player}} {{i.action}} {{i.card}}</p>
     {% endfor %}
+    <p id="time" stamp="1336381432854" tz="" fmt=""></p>
 </body>
 </html>

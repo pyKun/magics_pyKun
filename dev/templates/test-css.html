@@ -4,7 +4,6 @@
     <meta charset="utf-8">
     <title>Css Test</title>
     <link rel="stylesheet" href="{{STATIC_URL}}css/ui-lightness/jquery-ui-1.8.18.custom.css">
-    <link rel="stylesheet" href="{{STATIC_URL}}css/dev/dev-test.css">
     <link rel="stylesheet" href="{{STATIC_URL}}css/dev/dev.css">
     <link type="image/x-icon" href="{{STATIC_URL}}favicon.ico" rel="shortcut icon">
     <script src="{{STATIC_URL}}js/jquery-1.7.1.min.js"></script>
@@ -12,22 +11,35 @@
     <script>
         var hk = ''; // for debug
         $(function(){
-            $( '.drop_card' ).droppable({
+            $( '.card_drop' ).droppable({
                 greedy:true,
                 tolerance:"intersect",
-			    activeClass: "custom-state-active",
                 drop:function(event, ui){
-                    console.log('hands:' + $(this).attr('id').toUpperCase() + ' drop a card');
+                    //console.log('hands:' + $(this).attr('id').toUpperCase() + ' drop a card');
                     var $draged_card = ui.draggable;
                     var $this_card_drop = $(this);
-                    hk = $this_card_drop;
 
                     // TODO understand return meanings.
+                    // TODO add revert and accept
                     //empty card drop
                     if ( ! $this_card_drop.children().is('.card') ){
-                        $draged_card.appendTo($this_card_drop);
+                        console.log("move into empty card drop.");
+                        $draged_card.appendTo($this_card_drop)
+                            .addClass('onhands').removeClass('ondesk')
+                            .css('left','0px').css('top','0px');
                     }
-                    //not empty card drop and self one!
+                    //not empty card drop and from outside desk and there's free card drop
+                    else if ($dragged_card.hasClass('ondesk') && $('li.card_drop > span.ondesk').length>0){
+                        console.log("not empty card drop and from outside desk and there's free card drop");
+                        var $next_free_drop = $('ul.hands > li:empty:first');
+                        $draged_card.appendTo($next_free_drop).css('left','0px').css('top','0px');
+                    }
+                    //not empty card drop and from outside desk and there's no free card drop
+                    else if ($dragged_card.hasClass('ondesk') && $('li.card_drop > span.ondesk').length==0){
+                        console.log("not empty card drop and from outside desk and there's no free card drop");
+                        //TODO
+                    }
+                    //not empty card drop and from own self one!
                     else if ( $this_card_drop.attr('id') == $draged_card.parent().attr('id') ) {
                         console.log('this is the self card drop');
                     }
@@ -37,66 +49,60 @@
                         var $origin_card = $this_card_drop.children();
                         var $before_card_drop = $draged_card.parent();
 
-                        $origin_card.appendTo($before_card_drop);
-                        $draged_card.appendTo($this_card_drop);
+                        $origin_card.appendTo($before_card_drop).css('left','0px').css('top','0px');
+                        $draged_card.appendTo($this_card_drop).css('left','0px').css('top','0px');
                     }
                 },
                 over:function(event, ui){
-                    console.log('a card is over on hands: ' + $(this).attr('id').toUpperCase());
+                    //console.log('a card is over on hands: ' + $(this).attr('id').toUpperCase());
                 },
                 out:function(event, ui){
-                    console.log('a card is out of hands: ' + $(this).attr('id').toUpperCase());
+                    //console.log('a card is out of hands: ' + $(this).attr('id').toUpperCase());
                 },
             });
 
-            $( '.desk' ).droppable({
+            $( '.card_desk' ).droppable({
                 greedy:true,
                 tolerance:"fit",
                 drop:function(event, ui){
-                    //use greedy, so as getting, it's in out of sub-droppable.
-                    var $this_desk = $(this);
-                    var $desk_space = $($this_desk.children('.desk_space'));
-
-                    var $new_li = $( '<li class="desk_card"></li>' );
-                    $new_li.appendTo($desk_space);
-
-                    var $draged_card = ui.draggable;
-                    $draged_card.appendTo($new_li);
-
-                    //TODO from hands to desk is span-->li; from desk to hands??
-                    console.log('desk drop a card');
-                },
-                over:function(event, ui){
-                    //console.log('a card is over on desk');
+                    console.log("desk drop sth.");
+                    $dragged_card = ui.draggable;
+                    $dragged_card.addClass('ondesk').removeClass('onhands');
                 },
                 out:function(event, ui){
-                    //console.log('a card is out of desk');
+                },
+                over:function(event, ui){
                 },
             });
 
             $( '.card' ).draggable({
                 start:function(event, ui){
-                    console.log('a card: ' + $(this).html().toUpperCase() + ' starts to drag');
+                    //console.log('a card: ' + $(this).html().toUpperCase() + ' starts to drag');
                 },
                 stop:function(event, ui){
-                    console.log('a card: ' + $(this).html().toUpperCase() + ' stop drag');
+                    //console.log('a card: ' + $(this).html().toUpperCase() + ' stop drag');
                 },
                 drag:function(event, ui){
                     //console.log('a card is dragging');
                 },
             });
+
+            $('.hands').disableSelection()
         });
 	</script>
 </head>
 <body>
-    <div id="desk" class="desk">
+    <ul id="desk" class="card_desk">
         <ul id="hands" class="hands">
-            <li id="card_1" class="drop_card ui-state-default"><span class="card">some_card1</span></li>
-            <li id="card_2" class="drop_card ui-state-default"><span class="card">some_card2</span></li>
-            <li id="card_3" class="drop_card ui-state-default"></li>
+            <h3>hands here!</h3>
+            <li id="card_1" class="card_drop"><span class="card onhands">some_card1</span></li>
+            <li id="card_2" class="card_drop"><span class="card onhands">some_card2</span></li>
+            <li id="card_3" class="card_drop"><span class="card onhands">some_card3</span></li>
+            <li id="card_4" class="card_drop"><span class="card onhands">some_card4</span></li>
+            <li id="card_5" class="card_drop"></li>
+            <li id="card_6" class="card_drop"></li>
+            <li id="card_7" class="card_drop"></li>
         </ul>
-        <ul id="desk_space" class="desk_space">
-        </ul>
-    </div>
+    </ul>
 </body>
 </html>
