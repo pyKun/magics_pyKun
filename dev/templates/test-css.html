@@ -19,31 +19,32 @@
                     var $draged_card = ui.draggable;
                     var $this_card_drop = $(this);
 
-                    // TODO understand return meanings.
                     // TODO add revert and accept
                     //empty card drop
                     if ( ! $this_card_drop.children().is('.card') ){
                         console.log("move into empty card drop.");
                         $draged_card.appendTo($this_card_drop)
                             .addClass('onhands').removeClass('ondesk')
-                            .css('left','0px').css('top','0px');
+                            .css('left','0px').css('top','0px').css('position','static');
                     }
                     //not empty card drop and from outside desk and there's free card drop
-                    else if ($dragged_card.hasClass('ondesk') && $('li.card_drop > span.ondesk').length>0){
+                    else if ($draged_card.hasClass('ondesk') && $('span.ondesk').length>0){
                         console.log("not empty card drop and from outside desk and there's free card drop");
-                        var $next_free_drop = $('ul.hands > li:empty:first');
+                        var $next_free_drop = $('ul.hands li:not(:has(h5)):first');
+                        console.log($next_free_drop);
                         $draged_card.appendTo($next_free_drop)
                             .addClass('onhands').removeClass('ondesk')
-                            .css('left','0px').css('top','0px');
+                            .css('left','0px').css('top','0px').css('position','static');
                     }
                     //not empty card drop and from outside desk and there's no free card drop
-                    else if ($dragged_card.hasClass('ondesk') && $('li.card_drop > span.ondesk').length==0){
+                    else if ($draged_card.hasClass('ondesk') && $('span.ondesk').length==0){
                         console.log("not empty card drop and from outside desk and there's no free card drop");
-                        //TODO
+                        //TODO try to use REVERT
                     }
                     //not empty card drop and from own self one!
                     else if ( $this_card_drop.attr('id') == $draged_card.parent().attr('id') ) {
                         console.log('this is the self card drop');
+                        $draged_card.css('left','0px').css('top','0px');
                     }
                     //not empty card drop and not self one!
                     else if (true) {
@@ -70,8 +71,10 @@
                 tolerance:"fit",
                 drop:function(event, ui){
                     console.log("desk drop sth.");
+                    console.log(ui.offset.left);
                     $dragged_card = ui.draggable;
-                    $dragged_card.addClass('ondesk').removeClass('onhands');
+                    $dragged_card.addClass('ondesk').removeClass('onhands')
+                            .appendTo(this).css('left',ui.offset.left).css('top',ui.offset.top).css('position','absolute');
                 },
                 out:function(event, ui){
                 },
@@ -99,13 +102,56 @@
     <ul id="desk" class="card_desk">
         <ul id="hands" class="hands">
             <h3>hands here!</h3>
-            <li id="card_1" class="card_drop"><span class="card onhands">some_card1</span></li>
-            <li id="card_2" class="card_drop"><span class="card onhands">some_card2</span></li>
-            <li id="card_3" class="card_drop"><span class="card onhands">some_card3</span></li>
-            <li id="card_4" class="card_drop"><span class="card onhands">some_card4</span></li>
-            <li id="card_5" class="card_drop"></li>
-            <li id="card_6" class="card_drop"></li>
-            <li id="card_7" class="card_drop"></li>
+            <li id="card_1" class="card_drop">
+                <span class="card onhands">
+                    <h5 >some_card1</h5>
+                    <img src="/media/cards/ISD_100.jpg" alt=""/><br>
+                    <div>
+                        <a href="">btn1</a>
+                        <a href="">btn2</a>
+                    </div>
+                </span>
+            </li>
+            <li id="card_2" class="card_drop">
+                <span class="card onhands">
+                    <h5 >some_card1</h5>
+                    <img src="/media/cards/ISD_101.jpg" alt=""/><br>
+                    <div>
+                        <a href="">btn1</a>
+                        <a href="">btn2</a>
+                    </div>
+                </span>
+            </li>
+            <li id="card_3" class="card_drop">
+                <span class="card onhands">
+                    <h5 >some_card3</h5>
+                    <img src="/media/cards/ISD_102.jpg" alt=""/><br>
+                    <div>
+                        <a href="">btn1</a>
+                        <a href="">btn2</a>
+                    </div>
+                </span>
+            </li>
+            <li id="card_4" class="card_drop">
+                <span class="card onhands">
+                    <h5 >some_card4</h5>
+                    <img src="/media/cards/ISD_103.jpg" alt=""/><br>
+                    <div>
+                        <a href="">btn1</a>
+                        <a href="">btn2</a>
+                    </div>
+                </span>
+            </li>
+            <li id="card_5" class="card_drop">
+                <span class="card onhands">
+                    <h5 >some_card5</h5>
+                    <img src="/media/cards/ISD_104.jpg" alt=""/><br>
+                    <div>
+                        <a href="">btn1</a>
+                        <a href="">btn2</a>
+                    </div>
+                </span>
+            </li>
         </ul>
     </ul>
 </body>
