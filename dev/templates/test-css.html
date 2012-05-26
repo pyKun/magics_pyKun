@@ -31,7 +31,6 @@
                     else if ($draged_card.hasClass('ondesk') && $('span.ondesk').length>0){
                         console.log("not empty card drop and from outside desk and there's free card drop");
                         var $next_free_drop = $('ul.hands li:not(:has(h5)):first');
-                        console.log($next_free_drop);
                         $draged_card.appendTo($next_free_drop)
                             .addClass('onhands').removeClass('ondesk')
                             .css('left','0px').css('top','0px').css('position','static');
@@ -71,7 +70,6 @@
                 tolerance:"fit",
                 drop:function(event, ui){
                     console.log("desk drop sth.");
-                    console.log(ui.offset.left);
                     $dragged_card = ui.draggable;
                     $dragged_card.addClass('ondesk').removeClass('onhands')
                             .appendTo(this).css('left',ui.offset.left).css('top',ui.offset.top).css('position','absolute');
@@ -101,7 +99,6 @@
 <body>
     <ul id="desk" class="card_desk">
         <ul id="hands" class="hands">
-            <h3>hands here!</h3>
             <li id="card_1" class="card_drop">
                 <span class="card onhands">
                     <h5 >some_card1</h5>

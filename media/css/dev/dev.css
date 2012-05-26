@@ -9,15 +9,17 @@ li.card {
 
 ul.card_desk {
     width:900px;
-    height:900px;
+    height:650px;
     border-color:black;
     border-style:solid;
     position:relative;
 }
 
 ul.hands {
-    width:6000px;
-    height:6000px;
+    width:auto;
+    height:auto;
+position:relative;
+top:450px;
     border-style:solid;
 }
 ul.desk_space {
@@ -40,7 +42,7 @@ li.card_drop{
     color: #222222;
 }
 li {
-height:200px;
+height:auto;
 float:left;
 }
 span.card {
