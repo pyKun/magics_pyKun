@@ -6,7 +6,9 @@ li.card {
     background-color:red;
     border-color:black;
 }*/
-
+ul {
+    list-style:none;
+}
 ul.card_desk {
     width:900px;
     height:650px;
@@ -42,7 +44,7 @@ li.card_drop{
     color: #222222;
 }
 li {
-height:auto;
+height:130px;
 float:left;
 }
 span.card {

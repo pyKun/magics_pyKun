@@ -10,6 +10,7 @@
     <script src="{{STATIC_URL}}js/jquery-ui-1.8.18.custom.min.js"></script>
     <script>
         var hk = ''; // for debug
+        var fadeIn_msec = 1200;
         $(function(){
             $( '.card_drop' ).droppable({
                 greedy:true,
@@ -25,7 +26,7 @@
                         console.log("move into empty card drop.");
                         $draged_card.appendTo($this_card_drop)
                             .addClass('onhands').removeClass('ondesk')
-                            .css('left','0px').css('top','0px').css('position','static');
+                            .css('left','0px').css('top','0px').css('position','relative').fadeIn(fadeIn_msec);
                     }
                     //not empty card drop and from outside desk and there's free card drop
                     else if ($draged_card.hasClass('ondesk') && $('span.ondesk').length>0){
@@ -33,7 +34,7 @@
                         var $next_free_drop = $('ul.hands li:not(:has(h5)):first');
                         $draged_card.appendTo($next_free_drop)
                             .addClass('onhands').removeClass('ondesk')
-                            .css('left','0px').css('top','0px').css('position','static');
+                            .css('left','0px').css('top','0px').css('position','relative').fadeIn(fadeIn_msec);
                     }
                     //not empty card drop and from outside desk and there's no free card drop
                     else if ($draged_card.hasClass('ondesk') && $('span.ondesk').length==0){
@@ -43,7 +44,7 @@
                     //not empty card drop and from own self one!
                     else if ( $this_card_drop.attr('id') == $draged_card.parent().attr('id') ) {
                         console.log('this is the self card drop');
-                        $draged_card.css('left','0px').css('top','0px');
+                        $draged_card.css('left','0px').css('top','0px').fadeIn(fadeIn_msec);
                     }
                     //not empty card drop and not self one!
                     else if (true) {
@@ -52,9 +53,9 @@
                         var $before_card_drop = $draged_card.parent();
 
                         $origin_card.appendTo($before_card_drop)
-                            .css('left','0px').css('top','0px');
+                            .css('left','0px').css('top','0px').fadeIn(fadeIn_msec);
                         $draged_card.appendTo($this_card_drop)
-                            .css('left','0px').css('top','0px');
+                            .css('left','0px').css('top','0px').fadeIn(fadeIn_msec);
                     }
                 },
                 over:function(event, ui){
@@ -111,7 +112,7 @@
             </li>
             <li id="card_2" class="card_drop">
                 <span class="card onhands">
-                    <h5 >some_card1</h5>
+                    <h5 >some_card2</h5>
                     <img src="/media/cards/ISD_101.jpg" alt=""/><br>
                     <div>
                         <a href="">btn1</a>
