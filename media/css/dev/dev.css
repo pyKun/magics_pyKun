@@ -1,11 +1,3 @@
-/*
-li.card {
-    width:100px;
-    height:50;
-    padding:0.5em;
-    background-color:red;
-    border-color:black;
-}*/
 ul {
     list-style:none;
 }
@@ -18,20 +10,40 @@ ul.card_desk {
 }
 
 ul.hands {
-    width:auto;
+    width:826px;
     height:auto;
-position:relative;
-top:450px;
+    position:relative;
+    top:450px;
     border-style:solid;
+    float:left;
+    border-color:blue;
 }
-ul.desk_space {
-    float:right;
+
+span.card_group {
+    width:100px;
+    height:100px;
+    top:340px;
+    left:0px;
+    position:absolute;
+    border-style:solid;
     border-color:green;
 }
 
-ul.hands {
-    float:left;
-    border-color:blue;
+span.card_group a {
+    /*text-indent*/
+}
+
+span.card_grave {
+    width:100px;
+    height:100px;
+    top:340px;
+    right:0px;
+    position:absolute;
+    border-style:solid;
+    border-color:red;
+}
+
+span.card_grave a {
 }
 
 li.card_drop{
@@ -42,33 +54,31 @@ li.card_drop{
     border: 1px solid #fff234;
     background: #ffffff url(images/ffffff_40x100_textures_01_flat_75.png) 50% 50% repeat-x;
     color: #222222;
-}
-li {
-height:130px;
-float:left;
+    height:130px;
+    float:left;
 }
 span.card {
-width:96px;
-height:180px;
+    width:96px;
+    height:180px;
 }
 span.card h5 {
-width:85%;
-height:20px;
-text-align:center;
-font-size:10px;
-margin:0 0 0 0;
+    width:85%;
+    height:20px;
+    text-align:center;
+    font-size:10px;
+    margin:0 0 0 0;
 }
 span.card img {
-width:72px;
-height:96px;
-margin:0 0 0 0;
+    width:72px;
+    height:96px;
+    margin:0 0 0 0;
 }
 span.card div{
-height:25px;
+    height:25px;
 }
 span.card div a {
-float:left;
-font-size:10px;
-width:20px;
-height:20px;
+    float:left;
+    font-size:10px;
+    width:20px;
+    height:20px;
 }

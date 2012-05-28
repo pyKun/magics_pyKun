@@ -10,5 +10,6 @@ urlpatterns = patterns('dev.views',
     url(r'^action/$', 'action', name='action'),
     url(r'^status/$', 'status', name='status'),
     url(r'css_test/$', 'css_test', name='css-test'),
-    url(r'^(?P<role>.*)/$', 'play_page', name='role'),
-    )
+    url(r'^draw_card/$', 'draw_card', name='draw_card'),
+    url(r'^(?P<role>.*)/$', 'play_page', name='role'), # easy to be misused
+)

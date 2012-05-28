@@ -2,10 +2,8 @@ import time
 
 from settings import PROJECT_ROOT
 from django.http import HttpResponse
-from django.template import RequestContext
 from django.shortcuts import render
 from django.utils import simplejson
-from django.utils.translation import ugettext as _
 
 from dev.models import ACTION, ACTIONS
 
@@ -15,10 +13,18 @@ DESK = (
 
 GAME = None
 
+def draw_card(request): # ajax
+    import os, random
+    path = '%s/media/cards' % PROJECT_ROOT
+    jpgs = os.listdir(path)
+    jpg = random.choice(jpgs)
+    new_span ='<span class="card onhands"><h5>some_card1</h5><img src="/media/cards/%s" alt=""/><br><div><a href="">btn1</a><a href="">btn2</a></div></span>' % jpg
+    return HttpResponse(new_span)
+
 def game_init(request):
     global GAME
     GAME = ACTIONS()
-    return HttpResponse(_('success'))
+    return HttpResponse('success')
 
 def play_page(request, role):
     ret = {'role':role, 'game':GAME}
