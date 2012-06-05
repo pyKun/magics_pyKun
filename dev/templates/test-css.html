@@ -41,7 +41,7 @@
                     //TODO try to use REVERT
                 }
                 //not empty card drop and from own self one!
-                else if ( $this_card_drop.attr('id') == $draged_card.parent().attr('id') ) {
+                else if ( $this_card_drop.index() == $draged_card.parent().index() ) {
                     console.log('this is the self card drop');
                     $draged_card.css('left','0px').css('top','0px').fadeIn(fadeIn_msec);
                 }
@@ -77,8 +77,14 @@
                 drop:function(event, ui){
                     console.log("desk drop sth.");
                     $dragged_card = ui.draggable;
-                    $dragged_card.addClass('ondesk').removeClass('onhands')
-                            .appendTo(this).css('left',ui.offset.left).css('top',ui.offset.top).css('position','absolute');
+                    if ($dragged_card.hasClass('onhands')) {
+                        $dragged_card.addClass('ondesk').removeClass('onhands')
+                                .appendTo(this).css('left',ui.offset.left).css('top',ui.offset.top).css('position','absolute');
+                        //resort card drop
+                        if ($('.card_drop').length > 7) {
+                            $('.card_drop:not(:has(h5))').remove();
+                        }
+                    }
                 },
                 out:function(event, ui){
                 },
@@ -144,7 +150,7 @@
         </span>
         <!--hands-->
         <ul id="hands" class="hands">
-            <li id="card_1" class="card_drop">
+            <li class="card_drop">
                 <span class="card onhands">
                     <h5 >some_card1</h5>
                     <img src="/media/cards/ISD_100.jpg" alt=""/><br>
@@ -154,7 +160,7 @@
                     </div>
                 </span>
             </li>
-            <li id="card_2" class="card_drop">
+            <li class="card_drop">
                 <span class="card onhands">
                     <h5 >some_card2</h5>
                     <img src="/media/cards/ISD_101.jpg" alt=""/><br>
@@ -164,7 +170,7 @@
                     </div>
                 </span>
             </li>
-            <li id="card_3" class="card_drop">
+            <li class="card_drop">
                 <span class="card onhands">
                     <h5 >some_card3</h5>
                     <img src="/media/cards/ISD_102.jpg" alt=""/><br>
@@ -174,7 +180,7 @@
                     </div>
                 </span>
             </li>
-            <li id="card_4" class="card_drop">
+            <li class="card_drop">
                 <span class="card onhands">
                     <h5 >some_card4</h5>
                     <img src="/media/cards/ISD_103.jpg" alt=""/><br>
@@ -184,7 +190,7 @@
                     </div>
                 </span>
             </li>
-            <li id="card_5" class="card_drop">
+            <li class="card_drop">
                 <span class="card onhands">
                     <h5 >some_card5</h5>
                     <img src="/media/cards/ISD_104.jpg" alt=""/><br>
@@ -194,7 +200,7 @@
                     </div>
                 </span>
             </li>
-            <li id="card_6" class="card_drop">
+            <li class="card_drop">
                 <span class="card onhands">
                     <h5 >some_card6</h5>
                     <img src="/media/cards/ISD_105.jpg" alt=""/><br>
@@ -204,7 +210,7 @@
                     </div>
                 </span>
             </li>
-            <li id="card_7" class="card_drop">
+            <li class="card_drop">
                 <span class="card onhands">
                     <h5 >some_card7</h5>
                     <img src="/media/cards/ISD_106.jpg" alt=""/><br>
