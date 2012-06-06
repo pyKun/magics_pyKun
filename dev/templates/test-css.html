@@ -15,46 +15,68 @@
 
             function card_drop_drop(event, ui){
                 //console.log('hands:' + $(this).attr('id').toUpperCase() + ' drop a card');
-                var $draged_card = ui.draggable;
+                var $dragged_card = ui.draggable;
                 var $this_card_drop = $(this);
 
-                // TODO add revert and accept
-                // TODO design count_limit
+                // TODO add revert and accept for highlight
                 //empty card drop
                 if ( ! $this_card_drop.children().is('.card') ){
                     console.log("move into empty card drop.");
-                    $draged_card.appendTo($this_card_drop)
+                    $dragged_card.appendTo($this_card_drop)
                         .addClass('onhands').removeClass('ondesk')
                         .css('left','0px').css('top','0px').css('position','relative').fadeIn(fadeIn_msec);
                 }
                 //not empty card drop and from outside desk and there's free card drop
-                else if ($draged_card.hasClass('ondesk') && $('span.ondesk').length>0){
+                else if ($dragged_card.hasClass('ondesk') && $('.card_drop:not(:has(h5))').length>0){
                     console.log("not empty card drop and from outside desk and there's free card drop");
                     var $next_free_drop = $('ul.hands li:not(:has(h5)):first');
-                    $draged_card.appendTo($next_free_drop)
+                    $dragged_card.appendTo($next_free_drop)
                         .addClass('onhands').removeClass('ondesk')
                         .css('left','0px').css('top','0px').css('position','relative').fadeIn(fadeIn_msec);
                 }
                 //not empty card drop and from outside desk and there's no free card drop
-                else if ($draged_card.hasClass('ondesk') && $('span.ondesk').length==0){
+                else if ($dragged_card.hasClass('ondesk') && $('.card_drop:not(:has(h5))').length==0){
                     console.log("not empty card drop and from outside desk and there's no free card drop");
-                    //TODO try to use REVERT
+                    //TODO 7 in to 8
+                    $new_drop = $(new_drop).droppable({
+                        greedy:true,
+                        tolerance:"intersect",
+                        drop:card_drop_drop,
+                    });
+                    $new_drop.append($dragged_card
+                            .addClass('onhands').removeClass('ondesk')
+                            .css('left','0px').css('top','0px').css('position','relative')).appendTo('.hands');
                 }
                 //not empty card drop and from own self one!
-                else if ( $this_card_drop.index() == $draged_card.parent().index() ) {
+                else if ( $this_card_drop.index() == $dragged_card.parent().index() ) {
                     console.log('this is the self card drop');
-                    $draged_card.css('left','0px').css('top','0px').fadeIn(fadeIn_msec);
+                    $dragged_card.css('left','0px').css('top','0px').fadeIn(fadeIn_msec);
                 }
                 //not empty card drop and not self one!
                 else if (true) {
                     console.log('exchange two cards');
                     var $origin_card = $this_card_drop.children();
-                    var $before_card_drop = $draged_card.parent();
+                    var $before_card_drop = $dragged_card.parent();
 
                     $origin_card.appendTo($before_card_drop)
                         .css('left','0px').css('top','0px').fadeIn(fadeIn_msec);
-                    $draged_card.appendTo($this_card_drop)
+                    $dragged_card.appendTo($this_card_drop)
                         .css('left','0px').css('top','0px').fadeIn(fadeIn_msec);
+                }
+            };
+
+            function card_grave_drop(event, ui){
+                console.log('card_grave drop');
+                var $dragged_card = ui.draggable;
+                var $this_card_drop = $(this);
+                var new_li = '<li>' + $dragged_card.children('h5').text() + '</li>';
+
+                $dragged_card.remove();
+                $(new_li).appendTo('span.card_grave ul.basket')
+                        .fadeIn(fadeIn_msec);
+
+                if ($('.card_drop').length > 7) {
+                    $('.card_drop:not(:has(h5))').remove();
                 }
             };
 
@@ -63,12 +85,12 @@
                 greedy:true,
                 tolerance:"intersect",
                 drop:card_drop_drop,
-                over:function(event, ui){
-                    //console.log('a card is over on hands: ' + $(this).attr('id').toUpperCase());
-                },
-                out:function(event, ui){
-                    //console.log('a card is out of hands: ' + $(this).attr('id').toUpperCase());
-                },
+            });
+
+            $('.card_grave').droppable({
+                greedy:true,
+                tolerance:"intersect",
+                drop:card_grave_drop,
             });
 
             $( '.card_desk' ).droppable({
@@ -80,60 +102,51 @@
                     if ($dragged_card.hasClass('onhands')) {
                         $dragged_card.addClass('ondesk').removeClass('onhands')
                                 .appendTo(this).css('left',ui.offset.left).css('top',ui.offset.top).css('position','absolute');
-                        //resort card drop
+                        // resort card drop
                         if ($('.card_drop').length > 7) {
                             $('.card_drop:not(:has(h5))').remove();
                         }
                     }
                 },
-                out:function(event, ui){
-                },
-                over:function(event, ui){
-                },
             });
 
             $( '.card' ).draggable({
-                start:function(event, ui){
-                    //console.log('a card: ' + $(this).html().toUpperCase() + ' starts to drag');
-                },
-                stop:function(event, ui){
-                    //console.log('a card: ' + $(this).html().toUpperCase() + ' stop drag');
-                },
-                drag:function(event, ui){
-                    //console.log('a card is dragging');
-                },
             });
 
             $('.hands').disableSelection();
 
-            new_drop = '<li class="card_drop"></li>';
+            var new_drop = '<li class="card_drop"></li>';
 
             $('span#group a').click(function() {
                 $.ajax({
                     url:'/dev/draw_card/',
                 }).done(function(span){
-                    // add new card into hands
-                    console.log('get new card span');
+                        // add new card into hands
+                        console.log('get new card span');
 
-                    $free_drop = $('ul.hands li:not(:has(h5))');
-                    if ($free_drop.length > 0){
-                        // there's free hand_drop
-                        console.log('new card into free drop');
-                        $(span).appendTo($free_drop[0]).draggable();
-                    }
-                    else if ($free_drop.length == 0){
-                        // there's no free hand_drop
-                        console.log('new card into new drop');
-                        $(new_drop).appendTo($('ul.hands')).droppable({
-                            greedy:true,
-                            tolerance:"intersect",
-                            drop:card_drop_drop,
-                        });
-                        $(span).appendTo($('ul.hands li:not(:has(h5)):first')).draggable();
-                    }
-                    else {
-                    }
+                        $free_drop = $('ul.hands li:not(:has(h5))');
+                        if ($free_drop.length > 0){
+                            // there's free hand_drop
+                            console.log('new card into free drop');
+                            $(span).appendTo($free_drop[0]).draggable();
+                        }
+                        else if ($free_drop.length == 0){
+                            // there's no free hand_drop
+                            console.log('new card into new drop');
+                            $(new_drop).appendTo($('ul.hands')).droppable({
+                                greedy:true,
+                                tolerance:"intersect",
+                                drop:card_drop_drop,
+                            });
+                            $(span).appendTo($('ul.hands li:not(:has(h5)):first')).draggable();
+                        }
+                        else {
+                        }
                     });
+            });
+
+            $('span#grave a').click(function(){
+                $('span#grave ul.basket').fadeToggle();
             });
         });
 	</script>
@@ -146,7 +159,8 @@
         </span>
         <!--card grave-->
         <span id="grave" class="card_grave">
-            <a href="">expand grave</a>
+            <a >expand grave</a>
+            <ul class='basket'></ul>
         </span>
         <!--hands-->
         <ul id="hands" class="hands">

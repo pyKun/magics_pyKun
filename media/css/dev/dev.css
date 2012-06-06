@@ -20,9 +20,9 @@ ul.hands {
 }
 
 span.card_group {
-    width:100px;
-    height:100px;
-    top:340px;
+    width:150px;
+    height:150px;
+    top:290px;
     left:0px;
     position:absolute;
     border-style:solid;
@@ -34,9 +34,9 @@ span.card_group a {
 }
 
 span.card_grave {
-    width:100px;
-    height:100px;
-    top:340px;
+    width:150px;
+    height:150px;
+    top:290px;
     right:0px;
     position:absolute;
     border-style:solid;
@@ -46,13 +46,23 @@ span.card_grave {
 span.card_grave a {
 }
 
+span.card_grave ul.basket {
+    list-style:none;
+    position:relative;
+    left:100px;
+    height:auto;
+    width:100px;
+    border-style:solid;
+    border-color:yellow;
+}
+
 li.card_drop{
     width: 96px;
     padding: 0.4em;
     margin: 0 0.4em 0.4em 0;
     text-align: center;
     border: 1px solid #fff234;
-    background: #ffffff url(images/ffffff_40x100_textures_01_flat_75.png) 50% 50% repeat-x;
+    background: #ffffff url(../../images/ui-bg_flat_75_ffffff_40x100.png) 50% 50% repeat-x;
     color: #222222;
     height:130px;
     float:left;
